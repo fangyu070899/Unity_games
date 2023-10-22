@@ -26,31 +26,13 @@ namespace ZoombieGame
         {
             Vector3 worldPosition = rectTransform.position;
             float zoombie_x = gameController.getZoombie();
+            List<float> index = gameController.getButtonIndex();
+            Debug.Log("zoombie : " + zoombie_x + "shoot : " + worldPosition.x);
 
-
-            if (zoombie_x == -1.53f)
+            if (zoombie_x == worldPosition.x)
             {
-                if(worldPosition.x < 82.62 && worldPosition.x > 10)
-                {
-                    Debug.Log("Left Shoot");
-                    gameController.shoot();
-                }
-            }
-            else if ( zoombie_x == 1.53f)
-            {
-                if (worldPosition.x < 238.14 && worldPosition.x > 160.38)
-                {
-                    Debug.Log("Right Shoot");
-                    gameController.shoot();
-                }
-            }
-            else if (zoombie_x == 0)
-            {
-                if (worldPosition.x > 82.62 && worldPosition.x < 160.38)
-                {
-                    Debug.Log("Middle Shoot");
-                    gameController.shoot();
-                }
+                Debug.Log("Left Shoot");
+                gameController.shoot();
             }
 
         }

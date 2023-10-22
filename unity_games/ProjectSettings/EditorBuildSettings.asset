@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/MenuScene.unity
+    guid: ba3173b89224eb54e8734dcb8ee78219
+  - enabled: 1
+    path: Assets/Scenes/ZoombieScene.unity
+    guid: 8febd868574a5d34b8dc8b6938d0ebd9
   m_configObjects: {}
