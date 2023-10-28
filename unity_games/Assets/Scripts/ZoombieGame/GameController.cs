@@ -11,12 +11,16 @@ namespace ZoombieGame
         public GameObject zoombie1;
         public GameObject zoombie2;
         public GameObject zoombie3;
+        public GameObject zoombie4;
+        public GameObject zoombie5;
         private List<GameObject> zoombies;
         private List<float> button_index;
 
         private GameObject canvas;
         private UI canvasUI;
 
+        GameObject audioSource;
+        audio audio_player;
 
         float lowest;
         float highest;
@@ -27,14 +31,20 @@ namespace ZoombieGame
         public float timeRemaining = 30f;
         private float startCountdown = 3f;
         private int score = 0;
+        private bool isPause = false;
+        private bool isEnd = false;
 
         // Start is called before the first frame update
         void Start()
         {
             canvas = GameObject.Find("Canvas");
             canvasUI = canvas.GetComponent<UI>();
+
+            audioSource = GameObject.Find("AudioSource");
+            audio_player = audioSource.GetComponent<audio>();
+
             button_index = canvasUI.countButtonIndex();
-            lowest = button_index[3] + 300f;
+            lowest = button_index[3] + 400;
             highest = lowest + delta_zoombie * 9;
 
             setUp();
@@ -51,7 +61,7 @@ namespace ZoombieGame
             }
             else
             {
-                canvasUI.setBtnInteractable(true);
+                if(!isPause)canvasUI.setBtnInteractable(true);
                 if (timeRemaining > 0)
                 {
                     timeRemaining -= Time.deltaTime;
@@ -60,10 +70,15 @@ namespace ZoombieGame
                 }
                 else
                 {
-                    timeRemaining = 0;
-                    timeout();
-                    Pause(true);
-                    canvasUI.gameOver(score);
+                    if (!isEnd)
+                    {
+                        isEnd = true;
+                        timeRemaining = 0;
+                        timeout();
+                        Pause(true);
+                        canvasUI.gameOver(score);
+                        audio_player.play_score();
+                    }
                 }
             }
         }
@@ -75,12 +90,18 @@ namespace ZoombieGame
             Debug.Log(score);
         }
 
-        void Pause(bool boolean)
+        public void Pause(bool boolean)
         {
             if (boolean)
+            {
+                isPause = true;
                 Time.timeScale = 0;
+            }
             else
+            {
+                isPause = false;
                 Time.timeScale = 1;
+            }
         }
 
         void setUp()
@@ -101,6 +122,8 @@ namespace ZoombieGame
             timeRemaining = 30f;
             startCountdown = 3f;
             score = 0;
+            Pause(false);
+            isEnd = false;
 
         }
 
@@ -132,7 +155,15 @@ namespace ZoombieGame
             {
                 obj = Instantiate(zoombie1, canvas.transform);
             }
-            else if (zoombies_num <= 100)
+            else if (zoombies_num <= 90)
+            {
+                obj = Instantiate(zoombie2, canvas.transform);
+            }
+            else if (zoombies_num <= 140)
+            {
+                obj = Instantiate(zoombie2, canvas.transform);
+            }
+            else if (zoombies_num <= 200)
             {
                 obj = Instantiate(zoombie2, canvas.transform);
             }
@@ -171,10 +202,14 @@ namespace ZoombieGame
                 score += 10;
             else if (killed <= 50)
                 score += 100;
-            else if (killed <= 100)
+            else if (killed <= 90)
                 score += 1000;
-            else
+            else if (killed <= 140)
                 score += 10000;
+            else if (killed <= 200)
+                score += 100000;
+            else
+                score += 1000000;
         }
 
         float random_x()

@@ -27,7 +27,8 @@ namespace ZoombieGame
         private Image countdownImage;
 
         private GameObject endImage;
-        private Image scoreImage;
+
+        private GameObject menuImage;
 
         // Start is called before the first frame update
         void Start()
@@ -40,7 +41,9 @@ namespace ZoombieGame
             startImage = GameObject.Find("startImage");
             countdownImage = startImage.GetComponent<Image>();
             endImage = GameObject.Find("endImage");
-            scoreImage = endImage.GetComponent<Image>();
+            endImage.SetActive(false);
+            menuImage = GameObject.Find("menuImage");
+            menuImage.SetActive(false);
 
             button_0 = GameObject.Find("button_0").GetComponent<Button>(); 
             button_1 = GameObject.Find("button_1").GetComponent<Button>(); 
@@ -79,11 +82,16 @@ namespace ZoombieGame
             }
         }
 
+        public void menu(bool boolean)
+        {
+            menuImage.SetActive(boolean);
+        }
+
         public void gameOver(int score)
         {
-            scoreImage.enabled = true;
             totalScore.text = score.ToString();
             totalScore.enabled = true;
+            endImage.SetActive(true);
         }
 
         public void setBtnInteractable(bool boolean)
